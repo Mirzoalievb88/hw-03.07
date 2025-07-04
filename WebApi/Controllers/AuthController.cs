@@ -1,3 +1,6 @@
+using Domain.ApiResponse;
+using Domain.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.DTOs;
 using WebApi.Interfaces;
@@ -23,6 +26,19 @@ namespace WebApi.Controllers
             var token = await service.LoginAsync(dto);
             if (token == null) return Unauthorized();
             return Ok(new { token });
+        }
+
+        [HttpPost("reset")]
+        public async Task<Response<string>> ResetPasswordAsync(ResetPasswordDto dto)
+        {
+            return await service.ResetPasswordAsync(dto);
+        }
+
+        [HttpPost("Change")]
+        [Authorize]
+        public async Task<Response<string>> ChangePasswordAsync(ChangePasswordDto dto)
+        {
+            return await service.ChangePasswordAsync(dto);
         }
     }
 } 
